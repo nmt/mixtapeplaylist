@@ -1,2 +1,3 @@
 node_modules/
-authorization_code/settings.js
+*.env
+!.env.sample
