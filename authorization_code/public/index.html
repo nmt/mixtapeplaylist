@@ -28,6 +28,7 @@
         <div id="oauth">
         </div>
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+        <button class="btn btn-default" id="create-playlist">Create a test playlist</button>
       </div>
     </div>
 
@@ -123,6 +124,21 @@
           document.getElementById('obtain-new-token').addEventListener('click', function() {
             $.ajax({
               url: '/refresh_token',
+              data: {
+                'refresh_token': refresh_token
+              }
+            }).done(function(data) {
+              access_token = data.access_token;
+              oauthPlaceholder.innerHTML = oauthTemplate({
+                access_token: access_token,
+                refresh_token: refresh_token
+              });
+            });
+          }, false);
+
+          document.getElementById('create-playlist').addEventListener('click', function() {
+            $.ajax({
+              url: '/create_playlist',
               data: {
                 'refresh_token': refresh_token
               }

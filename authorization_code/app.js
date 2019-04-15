@@ -144,5 +144,29 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
+app.get('/create_playlist', function(req, res) {
+  var authOptions = {
+    url: 'https://api.spotify.com/v1/playlists',
+    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+    body: JSON.stringify({
+      "Content-Type": "application/json",
+      "name": "New Playlist",
+      "description": "New playlist description",
+      "public": false
+    }),
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    console.log(body);
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'Authorization': 'Bearer ' + access_token
+      });
+    }
+  });
+});
+
 console.log('Listening on 8888');
 app.listen(8888);
